@@ -222,21 +222,20 @@ mihomo_enable="YES" # 开机启用/服务项
 
 - 如何指定订阅链接中代理组的某个代理？（比如仅使用位于美国的某个代理 A）这涉及代理节点的精细化选择。
 
-# Clash for FreeBSD
+## Clash for FreeBSD
 
-## 1. 环境准备
+### 环境准备
 
 FreeBSD 默认登录 Shell 可能不是 `bash`，执行以下命令前请先切换到 `bash`：
 
-```shell
+```sh
 $ bash
 ```
 
-建议使用 `root` 权限账号。
+建议使用 `root` 权限账号。使用 pkg 安装：
 
-```shell
-# pkg update
-# pkg install -y bash curl gtar gzip
+```sh
+# pkg install bash curl gtar gzip
 ```
 
 说明：
@@ -244,11 +243,9 @@ $ bash
 - 当前脚本通过 `bash` 执行。
 - `freebsd-rc` 后端依赖 `service` 与 `/usr/local/etc/rc.d`。
 
+### 安装与初始化
 
-
-## 2. 安装与初始化
-
-```shell
+```sh
 $ git clone --branch master --depth 1 https://github.com/wenyinos/clash-freebsd.git
 $ cd clash-freebsd
 $ export KERNEL_TYPE=mihomo
@@ -257,7 +254,7 @@ $ export KERNEL_TYPE=mihomo
 
 首次配置：
 
-```shell
+```sh
 $ clashctl add <订阅链接> <名称>
 $ clashctl use
 $ clashctl select
@@ -265,11 +262,11 @@ $ clashon
 $ clashctl status
 ```
 
-## 3. FreeBSD 服务管理（rc.d）
+### FreeBSD 服务管理（rc.d）
 
 系统安装默认使用 `freebsd-rc` 后端，服务名：`clash_freebsd`。
 
-```shell
+```sh
 # service clash_freebsd status
 # service clash_freebsd start
 # service clash_freebsd stop
@@ -278,7 +275,7 @@ $ clashctl status
 
 管理内核服务开机自启：
 
-```shell
+```sh
 # clashctl autostart on
 # clashctl autostart status
 # clashctl autostart off
@@ -290,11 +287,11 @@ $ clashctl status
 - `service` 与 `autostart` 命令需要 root 权限（请使用 root 或 `sudo`）。
 - FreeBSD 自启配置文件：`/etc/rc.conf.d/clash_freebsd`。
 
-## 4. Tun 与路由诊断（FreeBSD）
+### Tun 与路由诊断（FreeBSD）
 
 Tun 设备通常为 `/dev/tun*`。
 
-```shell
+```sh
 # clashctl tun on
 # clashctl tun off
 # clashctl tun doctor
@@ -309,24 +306,24 @@ Tun 未生效时优先检查：
 - 当前用户权限（建议 root）
 - 默认路由是否已接管到 tun 接口
 
-## 5. 常用排障命令
+### 常用排障命令
 
-```shell
+```sh
 $ clashctl doctor
 $ clashctl logs
 $ clashctl logs mihomo
 $ clashctl config regen
 ```
 
-## 6. 卸载
+### 卸载
 
-```shell
+```sh
 # bash uninstall.sh
 ```
 
 彻底清理运行时数据：
 
-```shell
+```sh
 # bash uninstall.sh --purge-runtime
 ```
 
